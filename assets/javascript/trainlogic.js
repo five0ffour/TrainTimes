@@ -1,5 +1,5 @@
 //---------------------------------
-// Initialize Firebase
+// Global Varialbles - Initialize Firebase
 //---------------------------------
 var config = {
   apiKey: "AIzaSyALvv--swEeTKKU1Cqs826-QXAS6d32wsg",
@@ -12,9 +12,12 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var trains = [];
 
+//---------------------------------
 // Button handler for adding Trains
-$("#add-train-btn").on("click", function(event) {
+//---------------------------------
+$("#add-train-btn").on("click", function (event) {
   event.preventDefault();
 
   // Grabs user input
@@ -31,8 +34,8 @@ $("#add-train-btn").on("click", function(event) {
     frequency: trnFreq
   };
 
-// Write train data to the database
-database.ref().push(newTrain);
+  // Write train data to the database
+  database.ref().push(newTrain);
 
   // Logs everything to console for debugging
   console.log(newTrain.name);
@@ -52,7 +55,7 @@ database.ref().push(newTrain);
 //---------------------------------
 // Firebase event handler for adding trains to the database and a row in the html when a user adds an entry
 //---------------------------------
-database.ref().on("child_added", function(childSnapshot) {
+database.ref().on("child_added", function (childSnapshot) {
   console.log(childSnapshot.val());
 
   // Store everything into a variable.
@@ -61,19 +64,30 @@ database.ref().on("child_added", function(childSnapshot) {
   var trnFirst = childSnapshot.val().firstTime;
   var trnFreq = childSnapshot.val().frequency;
 
-  // Employee Info
+  // Train Info
   console.log(trnName);
   console.log(trnDest);
   console.log("First Time: " + trnFirst);
   console.log("Frequency: " + trnFreq);
 
-  // Prettify the train start
+  // Calculate the arrival of the next train
   var trnNextArrival = calculateNextArrivalTime(trnFirst, trnFreq);
-  // var trnMinutesAway = trnNextArrival.clone().subtract(moment(), "HH:mm");
+
+  // Calculate the duration to the next train
   var duration = moment.duration(trnNextArrival.diff(moment()));
   var trnMinutesAway = Math.round(duration.asMinutes());
 
-  // Create the new row
+  // Save the read train data and additional metadata into a sorted array of train objects
+  // var train = {};
+  // train.name = trnName;
+  // train.destination = trnDest;
+  // train.firstTime = trnFirst;
+  // train.frequency = trnFreq;
+  // train.minutesAway = parseInt(trnMinutesAway);
+  // trains.push(train);
+  // trains.sort(function(a,b) { return a.minutesAway - b.minutesAway; } );
+
+  // Create a new table row and populate with the formatted data
   var newRow = $("<tr>").append(
     $("<td>").text(trnName),
     $("<td>").text(trnDest),
@@ -82,13 +96,13 @@ database.ref().on("child_added", function(childSnapshot) {
     $("<td>").text(trnMinutesAway)
   );
 
-  // Append the new row to the table
+  // Append the new row to the DOM table
   $("#train-table > tbody").append(newRow);
 });
 
 //---------------------------------
-// calculteNextArrivalTime - Use the first Train time, the frequency and current time to determine when the 
-// time of next arrival is.
+// calculteNextArrivalTime() - Use the first Train time, the frequency and current time to determine when the 
+//                             time of next arrival is.
 //     Logic:  next arrival time is the first start time or first start time plus frequency internval that
 //             comes after the current time.   
 //     Assumptions:  Each day is a new day,  so all first times are assumed to start sometime today
@@ -96,7 +110,7 @@ database.ref().on("child_added", function(childSnapshot) {
 function calculateNextArrivalTime(startTime, frequencyMinutes) {
 
   // Create a moment object based on the current date and start time
-  var todayString = moment().format("MM/DD/YYYY ") + startTime;   
+  var todayString = moment().format("MM/DD/YYYY ") + startTime;
 
   // Create a moment object of the first valid start time today
   var nextArrivalTime = moment(todayString, "MM/DD/YYYY HH:mm");
@@ -106,7 +120,7 @@ function calculateNextArrivalTime(startTime, frequencyMinutes) {
 
   // Loop/increment and compare the next time against the current time until we have the next available
   while (nextArrivalTime < currentTime) {
-     nextArrivalTime.add(frequencyMinutes, "minutes");
+    nextArrivalTime.add(frequencyMinutes, "minutes");
   }
 
   // Log the result for debugging
