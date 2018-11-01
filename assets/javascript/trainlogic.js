@@ -15,9 +15,9 @@ var database = firebase.database();
 var trains = [];
 
 // Timer variables
-var displayTimerId = 0;             // display timer id for setInterval/clearInterval
-var displayTimerRunning = false;    // flags for the wait timer so we don't spawn multiple timers  
-const displayInterval = 15;         // Update the display four times / minute
+var displayTimerId = 0; // display timer id for setInterval/clearInterval
+var displayTimerRunning = false; // flags for the wait timer so we don't spawn multiple timers  
+const displayInterval = 15; // Update the display four times / minute
 
 // Fire off the timer event to refresh the display periodically
 startDisplayTimer();
@@ -63,6 +63,19 @@ $("#add-train-btn").on("click", function (event) {
 });
 
 //---------------------------------
+// Button handler for deleting trains 
+//---------------------------------
+$(document).on("click", ".btn-delete", function () {
+  var name = $(this).attr("data-name");
+  var confirmed = confirm("Removing entry for " + name + ". Confirm deletion:");
+  if (confirmed) {
+    console.log("on Delete() - deleting train: " + name)
+    deleteTrain(name);
+  }
+});
+
+
+//---------------------------------
 // Firebase event handler for adding trains to the database and a row in the html when a user adds an entry
 //---------------------------------
 database.ref().on("child_added", function (childSnapshot) {
@@ -83,10 +96,10 @@ database.ref().on("child_added", function (childSnapshot) {
   // console.log("-------------------------------------------------");
 
   // Calculate the arrival of the next train
-  var trnNextArrival = calculateNextArrivalTime(trnFirst, trnFreq);
+  // var trnNextArrival = calculateNextArrivalTime(trnFirst, trnFreq);
 
   // Calculate the duration to the next train
-  var trnMinutesAway = calculateMinutesToArrival(trnNextArrival);
+  // var trnMinutesAway = calculateMinutesToArrival(trnNextArrival);
 
   // Save the read train data and additional metadata into a sorted array of train objects
   var train = {};
@@ -100,6 +113,9 @@ database.ref().on("child_added", function (childSnapshot) {
   updateBoardDisplay(trains);
 });
 
+/*******************************/
+/*    Timer Events / Functions */
+/***************************** */
 //------------------------
 // startDisplayTimer()  - kicks off an interval to vamp until we want to update the display board
 //------------------------
@@ -124,7 +140,7 @@ function stopDisplayTimer() {
 // updateDisplayTimer() - periodically refresh the display board
 //----------------------
 function updateDisplayTimer() {
-  console.log("updateDisplayTimer() -- refreshing display"); 
+  console.log("updateDisplayTimer() -- refreshing display");
   updateBoardDisplay(trains);
 }
 
@@ -141,7 +157,6 @@ function calculateMinutesToArrival(arrivalTime) {
 //        3. sort the array by metadata
 //        3. clear the current display board
 //        4. reconstruct the UI table with the data/metadata in sorted order
-//
 //------------------------------------
 function updateBoardDisplay(trains) {
 
@@ -173,17 +188,53 @@ function updateBoardDisplay(trains) {
 //------------------------------------
 function addTrainToBoard(train) {
 
+  // Create and attach a delete button, add train id as key field for deletes
+  var btn = $("<button>").addClass("btn-delete");
+  btn.attr("data-name", train.name);
+  var img = $("<img>").attr("src", "assets/images/delete.jpg");
+  img.css("height", "15px");
+  btn.append(img);
+
   // Create a new table row and populate with the formatted data
   var newRow = $("<tr>").append(
     $("<td>").text(train.name),
     $("<td>").text(train.destination).addClass("col-city"),
     $("<td>").text(numberWithCommas(train.frequency)).addClass("col-number"),
     $("<td>").text(train.nextArrival.format('MM/DD hh:mm A')).addClass("col-time"),
-    $("<td>").text(numberWithCommas(train.minutesAway)).addClass("col-number")
+    $("<td>").text(numberWithCommas(train.minutesAway)).addClass("col-number"),
+    $("<td>").html(btn).addClass("col-btn")
   );
 
   // Append the new row to the DOM table
   $("#train-table > tbody").append(newRow);
+}
+
+//----------------------------------------
+// deleteTrain(name) - delete the train from the master trains array based on its name and refresh screen
+//----------------------------------------
+function deleteTrain(name) {
+
+  // TODO!!! -  Remove the train from the firebase database
+  //  database.ref(). ...
+
+  // Remove train from master array
+  var train = {};
+  for (var i = 0; i < trains.length; i++) {
+    if (trains[i].name === name) {
+      train = trains[i];
+      break;
+    }
+  }
+
+  // Remove train from master array
+  for (var i = 0; i < trains.length; i++) {
+    if (trains[i].name === name) {
+      trains.splice(i, 1);
+    }
+  }
+
+  // Refresh the display -- it should update as a consequence of a database event
+  updateBoardDisplay(trains);
 }
 
 //---------------------------------
@@ -191,7 +242,7 @@ function addTrainToBoard(train) {
 //                             time of next arrival is.
 //     Logic:  next arrival time is the first start time or first start time plus frequency internval that
 //             comes after the current time.   
-//     Assumptions:  Each day is a new day,  so all first times are assumed to start sometime today
+//     Assumptions:  Each day is a new day, so all first times are assumed to start sometime today
 //---------------------------------
 function calculateNextArrivalTime(startTime, frequencyMinutes) {
 
