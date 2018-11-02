@@ -36,6 +36,7 @@ trainlogic.js:  all of the application logic, timers, firebase and event handler
 1) Implement actual train schedules using an API (Amtrak was not avaialble at the time of this writing)  
 2) Extend delete functionality to the database  
 3) Allow users to sort / search for trains  
+4) Get ride of the confirm pop-up on train delete, use a modal dialog instead
 
 ### Maintentance App  
 
