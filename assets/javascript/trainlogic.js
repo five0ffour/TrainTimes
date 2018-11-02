@@ -194,12 +194,11 @@ function addTrainToBoard(train) {
 
   // Create a new table row and populate with the formatted data
   var newRow = $("<tr>").append(
-    $("<td>").text(train.name).addClass("col-name"),
-    $("<td>").text(train.destination).addClass("col-city"),
-    $("<td>").text(numberWithCommas(train.frequency)).addClass("col-number"),
+    $("<td>").text(train.name.toUpperCase()).addClass("col-name"),
+    $("<td>").text(train.destination.toUpperCase()).addClass("col-city"),
+    $("<td>").text(numberWithCommas(train.frequency)).addClass("col-freq"),
     $("<td>").text(train.nextArrival.format('MM/DD hh:mm A')).addClass("col-time"),
     $("<td>").text(numberWithCommas(train.minutesAway)).addClass("col-number"),
-    // $("<td>").html(btn).addClass("col-btn")
     $(btn)
   );
 

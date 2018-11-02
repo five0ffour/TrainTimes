@@ -1,3 +1,5 @@
+/* Fonts */
+@font-face { font-family: Digital-7; src: url('../fonts/digital-7.ttf'); } 
 
 /* ------ Header Bar -------- */
 .banner {
@@ -28,23 +30,34 @@ h5 {
 }
 
 /* ---------Table Formatting ----------*/
+tr {
+    background-color: black;
+    color: white;
+}
+
 #train-table th,
 td {
+    font-family: Digital-7, sans-serif; 
     display: inline-block;
     width: 17%;
     text-align: center;
+    background-color: black;
+    color: white;
 }
 
 .col-number,
 .col-time {
     text-align: right;
+    color: rgb(230, 230, 95);
 }
 
 .col-name {
     text-align: left;
     width: 22%;
 }
-.col-city {
+.col-city,
+.col-freq
+ {
     text-align: center;
     width: 17%;
 }
