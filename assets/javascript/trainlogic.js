@@ -1,6 +1,8 @@
 //---------------------------------
-// Global Varialbles - Initialize Firebase
+// Global Varialbles 
 //---------------------------------
+
+// Iniitalize Firebase 
 var config = {
   apiKey: "AIzaSyALvv--swEeTKKU1Cqs826-QXAS6d32wsg",
   authDomain: "traintimes-891b6.firebaseapp.com",
@@ -10,11 +12,12 @@ var config = {
   messagingSenderId: "875927816301"
 };
 firebase.initializeApp(config);
-
 var database = firebase.database();
+
+// Master train schedule array
 var trains = [];
 
-// Timer variables
+// Global Timer variables
 var displayTimerId = 0; // display timer id for setInterval/clearInterval
 var displayTimerRunning = false; // flags for the wait timer so we don't spawn multiple timers  
 const displayInterval = 15; // Update the display four times / minute
@@ -52,8 +55,6 @@ $("#add-train-btn").on("click", function (event) {
   console.log(newTrain.firstTime);
   console.log(newTrain.frequency);
   console.log("----------------------------------------------");
-
-  // alert("Train Schedule successfully added");
 
   // Clears the text-boxes
   $("#train-name-input").val("");
@@ -138,7 +139,10 @@ function updateDisplayTimer() {
   updateBoardDisplay(trains);
 }
 
-
+//---------------------------
+// calculateMinutesToArrival() - function to calculate duration,  called by the time function
+//                             and compares the passed time against the current real clock
+//---------------------------
 function calculateMinutesToArrival(arrivalTime) {
   var duration = moment.duration(arrivalTime.diff(moment()));
   return Math.round(duration.asMinutes());
