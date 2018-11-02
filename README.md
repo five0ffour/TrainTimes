@@ -14,13 +14,13 @@
 To get started,  copy the program to a clean directory and run "index.html" in your browser.   The program is ready to start automatically.  
 
 ## Prerequisites
-A modern browser and an internet connection.   Chrome works best, but others should be fine too.
-A modern IDE - it was developed using Visual Studio Code, but any text editor would work, including notepad.
-GitHub 
-GitBash installed locally
+A modern browser and an internet connection.   Chrome works best, but others should be fine too.  
+A modern IDE - it was developed using Visual Studio Code, but any text editor would work, including notepad.  
+GitHub   
+GitBash installed locally  
 
 ## Installing
-1.  Find a Locate an empty directory on your hard drive
+1.  Locate an empty directory on your hard drive
 2.  Open a bash terminal in that directory
 3.  Clone the unit-4-game repo down using  Git   
          "git clone https://github.com/five0ffour/TrainTimes.git"
@@ -48,6 +48,6 @@ Bootstrap 4.0.0 - UI framework
 Michael Galarneau - Initial work - Five0ffour
 
 ## Acknowledgments
-font: https://www.dafont.com/digital-7.font
-favicon:  https://www.iconfinder.com/icons/299096/calendar_clock_icon
-wallpaper:  Days of Wonder - Ticket to Ride -https://www.daysofwonder.com/tickettoride/en/
+font: https://www.dafont.com/digital-7.font  
+favicon:  https://www.iconfinder.com/icons/299096/calendar_clock_icon  
+wallpaper:  Days of Wonder - Ticket to Ride -https://www.daysofwonder.com/tickettoride/en/  
