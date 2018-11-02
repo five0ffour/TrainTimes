@@ -95,12 +95,6 @@ database.ref().on("child_added", function (childSnapshot) {
   // console.log("Frequency: " + trnFreq);
   // console.log("-------------------------------------------------");
 
-  // Calculate the arrival of the next train
-  // var trnNextArrival = calculateNextArrivalTime(trnFirst, trnFreq);
-
-  // Calculate the duration to the next train
-  // var trnMinutesAway = calculateMinutesToArrival(trnNextArrival);
-
   // Save the read train data and additional metadata into a sorted array of train objects
   var train = {};
   train.name = trnName;
@@ -189,20 +183,24 @@ function updateBoardDisplay(trains) {
 function addTrainToBoard(train) {
 
   // Create and attach a delete button, add train id as key field for deletes
-  var btn = $("<button>").addClass("btn-delete");
+  var btn = $("<button>").addClass("btn-delete px-2 ml-4");
   btn.attr("data-name", train.name);
+
+  // Place a spiffy graphic on it
   var img = $("<img>").attr("src", "assets/images/delete.jpg");
   img.css("height", "15px");
+
   btn.append(img);
 
   // Create a new table row and populate with the formatted data
   var newRow = $("<tr>").append(
-    $("<td>").text(train.name),
+    $("<td>").text(train.name).addClass("col-name"),
     $("<td>").text(train.destination).addClass("col-city"),
     $("<td>").text(numberWithCommas(train.frequency)).addClass("col-number"),
     $("<td>").text(train.nextArrival.format('MM/DD hh:mm A')).addClass("col-time"),
     $("<td>").text(numberWithCommas(train.minutesAway)).addClass("col-number"),
-    $("<td>").html(btn).addClass("col-btn")
+    // $("<td>").html(btn).addClass("col-btn")
+    $(btn)
   );
 
   // Append the new row to the DOM table

@@ -1,7 +1,6 @@
 
 /* ------ Header Bar -------- */
 .banner {
-    background-color: white;
     color: darkblue;
     text-align: center;
 }
@@ -14,12 +13,12 @@ h5 {
     font-size: 1.0em;
 }
 
-body {
-    background-image: url("../images/train-background.jpg");
+.container {
+    background-color: #813e24;
 }
 
 .jumbotron-welcome {
-    background-image: url("../images/train-banner.jpg");
+    background-image: url("../images/train-background.jpg");
     border: 2px solid #000000;
     background-size: 50%;
     background-position: center;
@@ -28,6 +27,7 @@ body {
     overflow: hidden;
 }
 
+/* ---------Table Formatting ----------*/
 #train-table th,
 td {
     display: inline-block;
@@ -40,9 +40,13 @@ td {
     text-align: right;
 }
 
+.col-name {
+    text-align: left;
+    width: 22%;
+}
 .col-city {
     text-align: center;
-    width: 22%;
+    width: 17%;
 }
 
 .col-btn {

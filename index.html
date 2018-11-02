@@ -30,14 +30,16 @@
 </head>
 
 <body>
+  <div class="container">
+
     <!-- Banner & Navigation -->
     <header>
-      <div class="container-fluid noPadding">
-        <div class="jumbotron jumbotron-welcome" style="background-color: #813e24">
+      <div class="container p-0">
+        <div class="jumbotron jumbotron-welcome">
           <div class="row">
-            <div class="col-lg-6 offset-lg-3" style="opacity: 0.75">
-              <h1 class="banner p-3 rounded text-center">Train Scheduler</h1>
-              <h5 class="p-0 text-center" style="color:blue; background:white; opacity: .90"><strong>You've got a ticket to ride -- all aboard!</strong></p>
+            <div class="col-lg-6 offset-lg-3">
+              <h1 class="banner p-3 m-1 rounded text-center">Train Scheduler</h1>
+              <h5 class="p-0 text-center" style="color:darkblue"><strong>You've got a ticket to ride -- all aboard!</strong></p>
             </div>
           </div>
         </div>
@@ -45,13 +47,12 @@
     </header>
 
     <!-- Conetnt Tables -->
-    <div class="container">
         <div class="row">
       <div class="col-md-12">
 
         <!-- Current Train Schedule-->
         <div class="card mb-4">
-          <div class="card-header" style="background-color:#813e24; color:white">Current Train Schedule</div>
+          <div class="card-header text-white" style="background-color: darkblue;">Current Train Schedule</div>
           <div class="card-body">
             <table class="table table-sm table-hover table-striped table-bordered" id='train-table'>
               <thead>
@@ -76,7 +77,7 @@
       <div class="col-md-12">
         <!-- Add Train  -->
         <div class="card mb-4">
-          <div class="card-header" style="background-color:#813e24; color:white">Add Train</div>
+          <div class="card-header text-white" style="background-color: darkblue;">Add Train</div>
           <div class="card-body">
 
             <!-- Entry Form -->
@@ -97,7 +98,7 @@
                 <label for="frequency-input">Frequency</label>
                 <input class="form-control" id="frequency-input" placeholder="1440" type="text">
               </div>
-              <button class="btn btn-primary float-right" id="add-train-btn">Submit</button>
+              <button class="btn btn-primary float-right" id="add-train-btn">Add Train</button>
             </form>
 
           </div>
